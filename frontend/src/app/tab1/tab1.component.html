@@ -1,0 +1,18 @@
+<h1>Generelle Informationen</h1>
+<form [formGroup]="dataForm">
+    <div class="radioGroup">
+        <p>Ich bin ein/e ...</p>
+        <mat-radio-group formControlName="publicOrPrivate">
+            <mat-radio-button value="true" [checked]="true">Privatperson</mat-radio-button>
+            <mat-radio-button value="false">Öffentlicher Verein</mat-radio-button>
+        </mat-radio-group>
+    </div>
+
+    <div class="PLZInput">
+        <p>Ich möchte hier bauen ...</p>
+        <mat-form-field appearance="fill">
+            <mat-label>PLZ</mat-label>
+            <input matInput placeholder="0000" formControlName="PLZ">
+        </mat-form-field>
+    </div>
+</form>

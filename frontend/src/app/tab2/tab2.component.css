@@ -1,0 +1,16 @@
+mat-sidenav-container {
+    height: 400px;
+}
+
+mat-sidenav {
+    width: 150px;
+}
+
+button {
+    width: 95%;
+    margin: 1% 2%;
+}
+
+.selected {
+    background-color: #C5E1A5;
+}

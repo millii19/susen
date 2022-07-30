@@ -1,0 +1,30 @@
+.mat-tab-header {
+    width: 100%;
+    display: flex;
+    justify-content: space-around;
+}
+.mat-tab-labels {
+    width: 100%;
+    display: flex;
+    justify-content: space-around;
+}
+mat-tab {
+    width: 33%;
+}
+
+.body {
+    display: flex; 
+    justify-content: center;
+    padding-top: 1%;
+    height: 400px;
+}
+
+
+.bottomButton {
+    display: flex;
+    justify-content: center;
+}
+
+button {
+    background-color: #C5E1A5;
+}

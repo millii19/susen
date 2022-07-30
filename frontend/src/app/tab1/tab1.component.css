@@ -1,0 +1,18 @@
+mat-form-field {
+    width: 400px;
+}
+
+.radioGroup {
+    width: 100%;
+}
+
+mat-radio-group {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;  
+}   
+
+.PLZInput {
+    width: 100%;
+    padding-top: 10%;
+}

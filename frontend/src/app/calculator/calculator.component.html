@@ -1,0 +1,21 @@
+<mat-tab-group [(selectedIndex)]="selectedTabIndex">
+    <mat-tab label="Wer/Wo">
+        <div class="body1 body">
+            <app-tab1></app-tab1>
+        </div>
+    </mat-tab>
+    <mat-tab label="Was">
+        <div>
+            <app-tab2></app-tab2>
+        </div>
+    </mat-tab>
+    <mat-tab label="Wann">
+        <div class="body">
+            <app-tab3></app-tab3>
+        </div>
+    </mat-tab>
+</mat-tab-group>
+
+<div class="bottomButton">
+    <button mat-flat-button (click)="onTabChange()">Weiter</button>
+</div>

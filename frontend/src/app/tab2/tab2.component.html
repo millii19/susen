@@ -1,0 +1,20 @@
+
+<mat-sidenav-container>
+    <mat-sidenav mode="side" #sidenav opened position="start">
+      <button mat-flat-button id="field0" (click)="this.changeField(0)">Photovoltaik</button>
+      <button mat-flat-button id="field1" (click)="this.changeField(1)">Windrad</button>
+      <button mat-flat-button id="field2" (click)="this.changeField(2)">Etc.</button>
+    </mat-sidenav>
+    <mat-sidenav-content>
+        <div *ngIf="this.selectedFieldIndex === 0">
+            Bla 0
+        </div>
+        <div *ngIf="this.selectedFieldIndex === 1"> 
+            Bla 1
+        </div>
+        <div *ngIf="this.selectedFieldIndex === 2">
+            Bla 2
+        </div>
+    </mat-sidenav-content>
+  </mat-sidenav-container>
+  

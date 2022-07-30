@@ -71,13 +71,14 @@ def wind_wattage(windspeed, wtype):
     return wind_type_dict[wtype](windspeed) * 1000
 
 
-# returns metorological data for the last year
+# returns meteorological data for the last year
 def load_data(location):
     # yesterday evening
     end = datetime.datetime.combine(date=datetime.date.today(
-    ) - datetime.timedelta(1), time=datetime.time(hour=23))
+    ) - datetime.timedelta(datetime.date.today().day), time=datetime.time(hour=23))
     # a "year" before that
-    start = end - datetime.timedelta(days=365) + datetime.timedelta(hours=1)
+    start = end - datetime.timedelta(days=360) + datetime.timedelta(hours=1)
+    start = start - datetime.timedelta(start.day-1)
     #
     res = requests.get(
         f'https://dataset.api.hub.zamg.ac.at/v1/timeseries/historical/inca-v1-1h-1km?parameters=GL,UU,VV,T2M&start={start.isoformat()}&end={end.isoformat()}&lat={location[0]}&lon={location[1]}')
@@ -130,7 +131,6 @@ if __name__ == "__main__":
     #production of Wh with full budget
     total_data = total_output(unit_data,10*1000*1000)
     monthly_data = aggregate_monthly(total_data)
-    pass
     # amounts units
     # total cost
     # break-even-point => linear anschaffungskosten/(revenue + ersparnis (pro jahr))

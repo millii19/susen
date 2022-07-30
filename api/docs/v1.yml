@@ -13,13 +13,108 @@ paths:
       description: Get the status of the application.
       operationId: app.get_status
       responses:
-        '200':
-          description: test
+        "200":
+          description: Current status information
           content:
             application/json:
               schema:
                 type: object
                 properties:
-                  version: 
+                  version:
                     type: string
-                    
+  /simulate:
+    get:
+      description: test
+      operationId: app.simulate
+      parameters:
+        - in: query
+          name: budget
+          required: true
+          description: The available budget in euros.
+          schema:
+            type: number
+            minimum: 0
+            example: 120000
+        - in: query
+          name: latitude
+          required: true
+          description: The latitude for the project.
+          schema:
+            type: number
+            minimum: -90
+            maximum: 90
+            example: 48.2157796
+        - in: query
+          name: longitude
+          required: true
+          description: The longitude for the project.
+          schema:
+            type: number
+            minimum: -180
+            maximum: 180
+            example: 16.3699576
+      responses:
+        "200":
+          description: List of estimated production values.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  oneOf:
+                    - $ref: "#/components/schemas/WindProjectValues"
+                    - $ref: "#/components/schemas/SolarProjectValues"
+
+components:
+  schemas:
+    ProjectValues:
+      type: object
+      discriminator:
+        propertyName: type
+        mapping:
+          solar: SolarProjectValues
+          wind: WindProjectValues
+      properties:
+        co2saved:
+          description: The amount of CO2 saved in g in the given timeframe.
+          type: number
+          minimum: 0
+        breakEvenPoint:
+          description: The number of days until the investment would pay for itself. (Value of -1 means no costs were provided)
+          type: integer
+          minimum: -1
+        production:
+          description: The amount of kWh produced in the given timeframe.
+          type: number
+          minimum: 0
+        amount:
+          description: The amount of the
+          type: number
+          minimum: 0
+        amountUnit:
+          description: The unit for the amount.
+          type: string
+        type:
+          description: The type of CO2 saving means.
+          type: string
+          enum: ["solar", "wind"]
+    WindProjectValues:
+      allOf:
+        - $ref: "#/components/schemas/ProjectValues"
+        - type: object
+          properties:
+            subType:
+              description: The type of wind turbine.
+              type: string
+              enum: ["small", "medium", "large"]
+      example: {co2saved: 56, breakEvenPoint: 1300, production: 870, amount: 1, amountUnit: "pc", type: "wind", subType: "medium"}
+    SolarProjectValues:
+      allOf:
+        - $ref: "#/components/schemas/ProjectValues"
+        - type: object
+          properties:
+            subType:
+              description: The type of solar panels.
+              type: string
+              enum: ["monochrystalline", "polychrystalline"]
+      example: {co2saved: 34, breakEvenPoint: 900, production: 304, amount: 13, amountUnit: "sqm", type: "solar", subType: "monochrystalline"}

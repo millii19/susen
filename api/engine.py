@@ -72,16 +72,9 @@ def wind_wattage(windspeed, wtype):
 
 
 # returns meteorological data for the last year
-def load_data(location):
-    # yesterday evening
-    end = datetime.datetime.combine(date=datetime.date.today(
-    ) - datetime.timedelta(datetime.date.today().day), time=datetime.time(hour=23))
-    # a "year" before that
-    start = end - datetime.timedelta(days=360) + datetime.timedelta(hours=1)
-    start = start - datetime.timedelta(start.day-1)
-    #
+def load_data(location,from_date,to_date):
     res = requests.get(
-        f'https://dataset.api.hub.zamg.ac.at/v1/timeseries/historical/inca-v1-1h-1km?parameters=GL,UU,VV,T2M&start={start.isoformat()}&end={end.isoformat()}&lat={location[0]}&lon={location[1]}')
+        f'https://dataset.api.hub.zamg.ac.at/v1/timeseries/historical/inca-v1-1h-1km?parameters=GL,UU,VV,T2M&start={from_date.isoformat()}&end={to_date.isoformat()}&lat={location[0]}&lon={location[1]}')
     if not 200 <= res.status_code < 300:
         raise Exception(res.content)
     json_data = res.json()
@@ -125,7 +118,13 @@ def total_output(unit_data,budget):
 
 
 if __name__ == "__main__":
-    raw_data = load_data((47.5, 16.5))
+    # end of last month
+    end = datetime.datetime.combine(date=datetime.date.today(
+    ) - datetime.timedelta(datetime.date.today().day), time=datetime.time(hour=23))
+    # a "year" before that
+    start = end - datetime.timedelta(days=365) + datetime.timedelta(hours=1)
+    start = start - datetime.timedelta(start.day-1)
+    raw_data = load_data((47.5, 16.5),start,end)
     #production of Wh per unit of powerplant
     unit_data = unit_output(raw_data)
     #production of Wh with full budget

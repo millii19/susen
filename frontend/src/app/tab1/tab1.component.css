@@ -12,7 +12,14 @@ mat-radio-group {
     justify-content: space-between;
 }
 
+mat-radio {
+    transition: all 0.3s ease-in-out;
+}
+
+.input {
+    padding-top: 5%;
+}
+
 .PLZInput {
     width: 100%;
-    padding-top: 10%;
 }

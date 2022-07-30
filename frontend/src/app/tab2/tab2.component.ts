@@ -13,14 +13,12 @@ export class Tab2Component implements OnInit, AfterViewInit {
 
   ngOnInit(): void {
   }
-  
+
   ngAfterViewInit(): void {
     this.changeField(0);
   }
 
   changeField(index: number) {
-    console.log(document.getElementById("field" + this.selectedFieldIndex));
-    
     document.getElementById("field" + this.selectedFieldIndex)?.classList.remove("selected");
     this.selectedFieldIndex = index;
     document.getElementById("field" + this.selectedFieldIndex)?.classList.add("selected");

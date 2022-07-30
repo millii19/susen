@@ -10,21 +10,8 @@ import OSM from "ol/source/OSM";
   styleUrls: ['./app.component.css']
 })
 export class AppComponent implements OnInit{
-  title = 'frontend';
-  map: Map | undefined;
+  title = 'Susen';
 
   ngOnInit(): void {
-    this.map = new Map({
-      view: new View({
-        center: [0, 0],
-        zoom: 4,
-      }),
-      layers: [
-        new TileLayer({
-          source: new OSM(),
-        }),
-      ],
-      target: 'map'
-    });
   }
 }

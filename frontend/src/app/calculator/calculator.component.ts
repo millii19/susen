@@ -1,4 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
+import { FormGroup } from '@angular/forms';
+import { Tab1Component } from '../tab1/tab1.component';
 
 @Component({
   selector: 'app-calculator',
@@ -7,14 +9,25 @@ import { Component, OnInit } from '@angular/core';
 })
 export class CalculatorComponent implements OnInit {
 
-  selectedTabIndex = 0;
+  showFirst = true;
+  form: FormGroup = new FormGroup("");
+  buttonClicked = false;
+  @ViewChild(Tab1Component) child: Tab1Component = new Tab1Component;
 
   constructor() {}
 
   ngOnInit(): void {}
 
   onTabChange() {
-    this.selectedTabIndex = (this.selectedTabIndex+1) % 3;    
+    if (this.showFirst) {
+      this.child.sendForm();
+    }
+    this.showFirst = !this.showFirst;
+  }
+
+  getForm(form: FormGroup) {
+    this.form = form;
+    console.log(form);
   }
 
 }

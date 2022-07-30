@@ -1,10 +1,3 @@
-mat-sidenav-container {
-    height: 400px;
-}
-
-mat-sidenav {
-    width: 150px;
-}
 
 button {
     width: 95%;
@@ -13,4 +6,12 @@ button {
 
 .selected {
     background-color: #C5E1A5;
+}
+
+.selected:hover {
+    background-color: #447a06;
+}
+
+ng-template {
+    width: 50%;
 }

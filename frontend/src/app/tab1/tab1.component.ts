@@ -8,7 +8,7 @@ import {Icon, Style} from "ol/style";
 import VectorLayer from "ol/layer/Vector";
 import VectorSource from 'ol/source/Vector';
 import {Point} from 'ol/geom';
-import {fromLonLat} from "ol/proj";
+import {fromLonLat, toLonLat} from "ol/proj";
 import {Feature} from 'ol';
 
 
@@ -21,6 +21,9 @@ export class Tab1Component implements OnInit {
 
   @Output() sendFormEvent = new EventEmitter<FormGroup>();
   map: Map | undefined;
+
+  lat = 0
+  lon = 0
 
   dataForm: FormGroup = new FormGroup({
     publicOrPrivate: new FormControl(0),
@@ -36,7 +39,7 @@ export class Tab1Component implements OnInit {
   ngOnInit(): void {
     this.map = new Map({
       view: new View({
-        center: fromLonLat([13.54059,47.5345646]),
+        center: fromLonLat([13.54059, 47.5345646]),
         zoom: 6
       }),
       layers: [
@@ -58,8 +61,14 @@ export class Tab1Component implements OnInit {
     });
     this.map.addLayer(markers);
 
-    var marker = new Feature(new Point(fromLonLat([13.54059,47.5345646])));
-    markers?.getSource()?.addFeature(marker);
+    this.map.on('click', event => {
+      var marker = new Feature(new Point(event.coordinate));
+      markers?.getSource()?.clear();
+      markers?.getSource()?.addFeature(marker);
+      const x = toLonLat(event.coordinate)
+      this.lat = x[0]
+      this.lon = x[1]
+    })
   }
 
   sendForm() {

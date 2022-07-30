@@ -1,0 +1,25 @@
+openapi: "3.0.0"
+info:
+  title: Susen Calculator API
+  description: |
+    The API for the highly esteemed *Susen Calculator* web application.
+  version: "1.0"
+servers:
+  - url: http://localhost:8080/v1
+    description: Development Server
+paths:
+  /status:
+    get:
+      description: Get the status of the application.
+      operationId: app.get_status
+      responses:
+        '200':
+          description: test
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  version: 
+                    type: string
+                    

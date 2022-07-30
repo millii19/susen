@@ -9,6 +9,6 @@ if [ ! -f ".env" ]; then
 fi
 
 echo "Setup complete."
-echo "To start the API run 'flask run'"
+echo "To start the API run 'python api/app.py'"
 echo ""
 echo "Please make sure to run this file as source ('source setup.sh') or activate the venv manually ('source venv/bin/activate')"

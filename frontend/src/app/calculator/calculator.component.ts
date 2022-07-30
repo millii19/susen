@@ -7,7 +7,7 @@ import { Component, OnInit } from '@angular/core';
 })
 export class CalculatorComponent implements OnInit {
 
-  selectedTabIndex = 1;
+  selectedTabIndex = 0;
 
   constructor() {}
 

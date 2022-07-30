@@ -9,8 +9,8 @@ mat-form-field {
 mat-radio-group {
     width: 100%;
     display: flex;
-    justify-content: space-between;  
-}   
+    justify-content: space-between;
+}
 
 .PLZInput {
     width: 100%;

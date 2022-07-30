@@ -1,5 +1,5 @@
-import { Component, OnInit } from '@angular/core';
-import { FormGroup, FormControl } from '@angular/forms';
+import {Component, OnInit} from '@angular/core';
+import {FormControl, FormGroup} from '@angular/forms';
 
 @Component({
   selector: 'app-tab1',
@@ -12,7 +12,7 @@ export class Tab1Component implements OnInit {
     publicOrPrivate: new FormControl(0),
     PLZ: new FormControl('0000')
   });
-  
+
   constructor() { }
 
   ngOnInit(): void {

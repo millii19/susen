@@ -16,16 +16,7 @@
         </mat-form-field>
         <mat-error *ngIf="this.dataForm.get('budget')?.invalid">Bitte, Budget anzugeben.</mat-error>
     </div>
-
-    <div class="PLZInput">
-        <p>Bauort:</p>
-        <mat-form-field appearance="fill">
-            <mat-label>PLZ</mat-label>
-            <input matInput placeholder="0000" formControlName="PLZ" type="number">
-        </mat-form-field>
-        <mat-error *ngIf="this.dataForm.get('PLZ')?.invalid">Bitte, eine PLZ zwischen 1000 und 9999 einzugeben.</mat-error>
-    </div>
 </form>
 
 <div id="map" style="height: 40%;width:100%"></div>
-{{lat}} {{lon}}
+{{dataForm.get("latitude")?.value}} {{dataForm.get("longitude")?.value}}

@@ -20,14 +20,10 @@ import {Feature} from 'ol';
 export class Tab1Component implements OnInit {
 
   @Output() sendFormEvent = new EventEmitter<FormGroup>();
-  map: Map | undefined;
-
-  lat = 0
-  lon = 0
+  map!: Map;
 
   dataForm: FormGroup = new FormGroup({
     publicOrPrivate: new FormControl(0),
-    PLZ: new FormControl('1010', [Validators.required, Validators.max(9999), Validators.min(1000)]),
     budget: new FormControl('0', [Validators.required]),
     latitude: new FormControl(0),
     longitude: new FormControl(0)
@@ -65,9 +61,8 @@ export class Tab1Component implements OnInit {
       var marker = new Feature(new Point(event.coordinate));
       markers?.getSource()?.clear();
       markers?.getSource()?.addFeature(marker);
-      const x = toLonLat(event.coordinate)
-      this.lat = x[0]
-      this.lon = x[1]
+      this.dataForm.get("latitude")?.setValue((toLonLat(event.coordinate))[0])
+      this.dataForm.get("longitude")?.setValue((toLonLat(event.coordinate))[1])
     })
   }
 

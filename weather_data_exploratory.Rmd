@@ -1,0 +1,89 @@
+---
+title: "Susen"
+author: "Peter Blohm"
+date: "2022-07-30"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## R Markdown
+
+```{r weather}
+
+library("rjson")
+library("lubridate")
+library("dplyr")
+library("tidyr")
+#Wh as 
+start <- "2021-07-30T00:00"
+end <- "2022-07-30T00:00"
+lat <- "47.5"
+lon <- "16.5"
+
+wind2kWh <- function(windspeed,category) {
+  #TODO
+  
+  kwh <- (windspeed -1.5)
+  kwh[kwh<0] <- 0
+  kwh[kwh>10] <- 10
+  
+  return(kwh)
+}
+
+globalRadiation2Wh <- function(globalradiation,category) {
+  return(globalradiation * 0.15/1000 * 0.9)
+}
+
+weather <- fromJSON(file = paste0("https://dataset.api.hub.zamg.ac.at/v1/timeseries/historical/inca-v1-1h-1km?parameters=GL,UU,VV,T2M&start=",start,"&end=",end,"&lat=",lat,"&lon=",lon), simplify = T)
+
+#head(weather)
+
+#flat weather
+fleather <- NULL
+fleather$timestamps <- as_date(weather$timestamps)
+fleather$windspeed <- sqrt(weather$features[[1]]$properties[[1]]$UU[[3]]^2 + weather$features[[1]]$properties[[1]]$VV[[3]]^2)
+fleather$globalradidation <- weather$features[[1]]$properties[[1]]$GL[[3]]
+#fleather$airtemperature <- unlist(weather$features[[1]]$properties[[1]]$T2M[[3]])
+
+fleather <- as.data.frame(fleather)
+
+
+weather_daily <- fleather %>% group_by(timestamps) %>% summarise(date = as.Date(first(timestamps)), windkWh = 10*sum(wind2kWh(windspeed,"lol")), solarkWh = globalRadiation2Wh(400*sum(globalradidation),"south")) %>% ungroup() %>% mutate(timestamps = NULL, rowtmp = row_number())
+
+#weather_daily$date <- factor(weather_daily$date,ordered = T)
+```
+
+## Including Plots
+
+```{r, warning=FALSE, message=F}
+
+library(ggplot2)
+ggplot(data = weather_daily,aes(x = date,y = solarkWh)) + geom_point() + geom_smooth()
+
+
+ggplot(data = weather_daily,aes(x = date,y = windkWh)) + geom_point() + geom_smooth()
+
+
+weather_daily %>% group_by(month(date)) %>% summarise(solarkWh = sum(solarkWh),windkWh = sum(windkWh))
+
+weather_daily %>% summarise(solarkWh = sum(solarkWh), windkWh = sum(windkWh))
+
+long_weather <- weather_daily %>% pivot_longer(c(solarkWh,windkWh))
+
+
+ggplot(data = long_weather,aes(x = date, y = value, col = name)) + geom_point(size = 1) + geom_smooth(size = 1) + ylab("produced daily energy/kWh") +
+  labs(title = "Produced daily energy by example configurations of solar and wind parks") + guides(col = guide_legend(title = "Energy Source")) + scale_y_continuous(limit = c(-20,520)) + theme(text = element_text(size = 15)) 
+
+
+
+``` 
+
+```{r, warning=FALSE, message=F}
+ggplot(data = long_weather,aes(x = date, y = value, col = name)) + geom_point(size = 3) + geom_smooth(size = 3) + ylab("produced daily energy/kWh") +
+  labs(title = "Produced daily energy by example configurations of solar and wind parks") + guides(col = guide_legend(title = "Energy Source")) + scale_y_continuous(limit = c(-20,520)) + theme(text = element_text(size = 20))   
+```
+
+

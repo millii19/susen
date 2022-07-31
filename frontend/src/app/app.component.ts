@@ -11,7 +11,12 @@ import OSM from "ol/source/OSM";
 })
 export class AppComponent implements OnInit{
   title = 'Susen';
+  showFirstPage = true;
 
   ngOnInit(): void {
+  }
+
+  buttonClicked(btnClicked: boolean) {
+    this.showFirstPage = btnClicked;
   }
 }

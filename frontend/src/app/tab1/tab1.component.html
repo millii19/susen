@@ -1,11 +1,11 @@
 <div class="body">
-  <h1>Generelle Informationen</h1>
+  <h1>Information</h1>
   <form [formGroup]="dataForm">
     <div class="radioGroup">
-      <p>Ich bin ein/e ...</p>
+      <p>I am a ...</p>
       <mat-radio-group formControlName="publicOrPrivate">
-        <mat-radio-button value="true" [checked]="true">Privatperson</mat-radio-button>
-        <mat-radio-button value="false">Öffentlicher Verein</mat-radio-button>
+        <mat-radio-button value="true" [checked]="true">private person</mat-radio-button>
+        <mat-radio-button value="false">company</mat-radio-button>
       </mat-radio-group>
     </div>
 
@@ -15,10 +15,9 @@
         <mat-label>Budget</mat-label>
         <input matInput placeholder="0€" formControlName="budget" type="number">
       </mat-form-field>
-      <mat-error *ngIf="this.dataForm.get('budget')?.invalid">Bitte, Budget anzugeben.</mat-error>
     </div>
   </form>
 
-  <p>Standort:</p>
+  <p>Location:</p>
   <div id="map" style="height: 17rem;width:100%"></div>
 </div>

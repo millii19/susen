@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import {HttpClient, HttpHeaders, HttpParams} from '@angular/common/http';
-import { WindSolarPanel } from './entities/windSolarPanel';
+import { Panel } from './entities/Panel';
 import {Observable} from "rxjs";
 
 @Injectable({
@@ -10,11 +10,13 @@ export class ApiService {
 
   constructor(private httpClient: HttpClient) { }
 
-  getSimulate(budget: number, latitude: number, longitude: number): Observable<WindSolarPanel> {
+  getSimulate(budget: number, usageQuota: number, latitude: number, longitude: number): Observable<Panel[]> {
     const headers = new HttpHeaders({"Access-Control-Allow-Origin": "*"})
-    const options = { params: new HttpParams().set('budget', budget)
-                      .set('latitude', latitude)
-                      .set('longitude', longitude) };
-    return this.httpClient.get<WindSolarPanel>("/v1/simulate", options);
+    const options = { params: new HttpParams()
+                      .set('budget', budget)
+                      .set('usage_quota', usageQuota)
+                      .set('latitude', longitude)
+                      .set('longitude', latitude) };
+    return this.httpClient.get<Panel[]>("/v1/simulate", options);
   }
 }

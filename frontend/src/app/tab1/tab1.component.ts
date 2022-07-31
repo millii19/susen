@@ -24,10 +24,10 @@ export class Tab1Component implements OnInit {
 
   dataForm: FormGroup = new FormGroup({
     publicOrPrivate: new FormControl(0),
-    PLZ: new FormControl('1010', [Validators.required, Validators.max(9999), Validators.min(1000)]),
     budget: new FormControl('0', [Validators.required]),
     latitude: new FormControl(0),
-    longitude: new FormControl(0)
+    longitude: new FormControl(0),
+    usage_quota: new FormControl(0.7)
   });
 
   constructor() {
@@ -37,7 +37,7 @@ export class Tab1Component implements OnInit {
     this.map = new Map({
       view: new View({
         center: fromLonLat([13.54059, 47.5345646]),
-        zoom: 6
+        zoom: 6.5
       }),
       layers: [
         new TileLayer({

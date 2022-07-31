@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 
 @Component({
   selector: 'app-nav-bar',
@@ -7,9 +7,14 @@ import { Component, OnInit } from '@angular/core';
 })
 export class NavBarComponent implements OnInit {
 
+  @Output() clickEvent = new EventEmitter<boolean>();
   constructor() { }
 
   ngOnInit(): void {
+  }
+
+  logoClicked() {
+    this.clickEvent.emit(true);
   }
 
 }

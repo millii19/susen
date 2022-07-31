@@ -55,3 +55,8 @@ ng-template {
   width: 100%;
   margin: auto;
 }
+
+:host::ng-deep.mat-tab-labels {
+  display: flex;
+  justify-content: space-around;
+}

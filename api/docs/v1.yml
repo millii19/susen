@@ -77,22 +77,39 @@ components:
       properties:
         co2saved:
           description: The amount of CO2 saved in g in the given timeframe.
-          type: number
-          minimum: 0
+          type: array
+          items:
+            type: number
+            minimum: 0
+        revenue:
+          description: The amount of potential revenue generated in the last 12 months, depending on tarif and self use.
+          type: array
+          items:
+            type: number
+            minimum: 0
+        savings:
+          description: The amount saved in the last 12 months, depending on live market price and self use.
+          type: array
+          items:
+            type: number
+            minimum: 0
         breakEvenPoint:
-          description: The number of days until the investment would pay for itself. (Value of -1 means no costs were provided)
-          type: integer
+          description: The number of years until the investment would pay for itself. (Value of -1 means no costs were provided)
+          type: number
           minimum: -1
         production:
           description: The amount of kWh produced in the given timeframe.
-          type: number
-          minimum: 0
+          type: array
+          items:
+            type: number
+            minimum: 0
         amount:
           description: The amount of the
           type: number
           minimum: 0
         amountUnit:
           description: The unit for the amount.
+          enum: ["sqm", "pcs"]
           type: string
         type:
           description: The type of CO2 saving means.
@@ -107,7 +124,13 @@ components:
               description: The type of wind turbine.
               type: string
               enum: ["small", "medium", "large"]
-      example: {co2saved: 56, breakEvenPoint: 1300, production: 870, amount: 1, amountUnit: "pc", type: "wind", subType: "medium"}
+      example: {
+        co2saved: [4, 6, 7, 1, 23, 7, 11, 33, 22, 14, 12 ,6],
+        breakEvenPoint: 9.1, 
+        production: [5400, 3455, 7100, 400, 555, 1233, 2334, 1200, 2338, 8344, 4566, 1233],
+        savings: [78, 44, 23, 4, 5, 13, 80, 30, 40, 52, 100, 40],
+        revenue: [33, 23, 12, 3, 4, 11, 77, 12, 23, 34, 87, 32],
+        amount: 1, amountUnit: "pcs", type: "wind", subType: "medium"}
     SolarProjectValues:
       allOf:
         - $ref: "#/components/schemas/ProjectValues"
@@ -117,4 +140,11 @@ components:
               description: The type of solar panels.
               type: string
               enum: ["monochrystalline", "polychrystalline"]
-      example: {co2saved: 34, breakEvenPoint: 900, production: 304, amount: 13, amountUnit: "sqm", type: "solar", subType: "monochrystalline"}
+      example: {
+        co2saved: [2.2, 4, 7, 6, 7, 10, 3, 5, 9, 6, 1, 3], 
+        breakEvenPoint: 6.7, 
+        production: [43, 12, 66, 23, 34, 55, 36, 18, 33, 27, 31, 62],
+        savings: [78, 44, 23, 4, 5, 13, 80, 30, 40, 52, 100, 40],
+        revenue: [33, 23, 12, 3, 4, 11, 77, 12, 23, 34, 87, 32],
+        amount: 13, amountUnit: "sqm", type: "solar", subType: "monochrystalline"
+      }

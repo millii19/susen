@@ -14,7 +14,8 @@ def load_historical_energy_prices_hourly(from_date, to_date):
         date_time_str = f"{row[0]}T{row[1]}"
         price = float(row[2].replace(",", "."))
 
-        merged_date = datetime.datetime.strptime(date_time_str, "%d.%m.%YT%H:%M")
+        merged_date = datetime.datetime.strptime(
+            date_time_str, "%d.%m.%YT%H:%M")
 
         return (merged_date, price)
 
@@ -44,7 +45,7 @@ def load_historical_energy_prices_hourly(from_date, to_date):
     return parsed
 
 
-def load_meteorological_data_hourly(location,from_date,to_date):
+def load_meteorological_data_hourly(location, from_date, to_date):
     res = requests.get(
         f'https://dataset.api.hub.zamg.ac.at/v1/timeseries/historical/inca-v1-1h-1km?parameters=GL,UU,VV,T2M&start={from_date.isoformat()}&end={to_date.isoformat()}&lat={location[0]}&lon={location[1]}')
     if not 200 <= res.status_code < 300:
@@ -52,14 +53,35 @@ def load_meteorological_data_hourly(location,from_date,to_date):
     json_data = res.json()
     daily = list(zip(json_data['timestamps'], json_data['features'][0]['properties']['parameters']['GL']['data'], json_data['features']
                  [0]['properties']['parameters']['UU']['data'], json_data['features'][0]['properties']['parameters']['VV']['data']))
-    data = DataFrame([dict(timestamp=datetime.datetime.fromisoformat(day[0]), gl=day[1],
-                           windspeed=math.sqrt(day[2]*day[2] + day[3]*day[3])) for day in daily])
-    
-    return data
+    daily_frame = DataFrame(
+        [dict(timestamp=datetime.datetime.fromisoformat(day[0]), gl=day[1], uu=day[2], vv=day[3]) for day in daily])
+
+    daily_frame[['gl', 'uu', 'vv']].interpolate(inplace=True)
+    daily_frame['windspeed'] = daily_frame.apply(parse_row, axis=1)
+
+    # data = DataFrame([dict(timestamp=datetime.datetime.fromisoformat(day.timestamps), gl=day.GL,
+    #   windspeed = math.sqrt(day.UU*day.UU + day.VV*day.VV)) for day in daily_frame])
+
+    return daily_frame
+
+
+def parse_row(row):
+    return math.sqrt(row[2]*row[2]+row[3]*row[3])
+
 
 if __name__ == "__main__":
+
+    end = datetime.datetime.combine(date=datetime.date.today(
+    ) - datetime.timedelta(datetime.date.today().day), time=datetime.time(hour=23))
+    # a "year" before that
+    start = end - datetime.timedelta(days=365) + datetime.timedelta(hours=1)
+    start = start - datetime.timedelta(start.day-1)
+
     # Example for debugging:
     data = load_historical_energy_prices_hourly(
-        datetime.datetime(year=2022, month=1, day=1),
-        datetime.datetime(year=2022, month=6, day=30),
+        start, end
     )
+
+    data2 = load_meteorological_data_hourly(
+        (48.2157796, 16.3699576),
+        start, end)

@@ -62,7 +62,6 @@ def calculate(location, usage_quota, budget):
     start = end - datetime.timedelta(days=365) + datetime.timedelta(hours=1)
     start = start - datetime.timedelta(start.day-1)
 
-
     raw_data = sources.load_meteorological_data_hourly(location, start, end)
     # production of Wh per unit of powerplant
     unit_data = unit_output(raw_data)
@@ -71,9 +70,8 @@ def calculate(location, usage_quota, budget):
     #total_data['co2_impact'] = total_data * 77.352
     monthly_data = aggregate_monthly(total_data)
 
-    return jsonify_response_data(total_data, budget,usage_quota,start,end)
-    
-    
+    return jsonify_response_data(total_data, budget, usage_quota, start, end)
+
 
 # solar Wh production per qm of panel
 
@@ -128,30 +126,37 @@ def total_output(unit_data, budget):
 
 def jsonify_response_data(total_data, budget, usage, from_date, to_date):
 
-    energy_prices = DataFrame(sources.load_historical_energy_prices_hourly(from_date, to_date))
+    energy_prices = DataFrame(
+        sources.load_historical_energy_prices_hourly(from_date, to_date))
     energy_data = total_data
-    for param in ['small','medium','large','mono','poly']:
+    for param in ['small', 'medium', 'large', 'mono', 'poly']:
         energy_data[param] = total_data[param]*energy_prices[1]
     #energy_data['mono'] = energy_prices
 
     monthly_data = aggregate_monthly(total_data)
     monthly_energy = aggregate_monthly(energy_data)
     response_json = [dict(amount=math.floor(budget/unit_cost_dict[param]),
-                          amountUnit= 'sqm' if param == 'mono' or param == 'poly' else 'pcs',  # sqm,pcs
-                          total_cost=math.floor(budget/unit_cost_dict[param]) * unit_cost_dict[param],
-                          breakEvenPoint=5, #TODO # float years
-                          production=[monthly_data.get(param)/1000],  # array of kWh
-                          co2saved=[monthly_data.get(param)/1000 * CO2_SAVINGS_FACTOR],  # array of g/kWh
+                          amountUnit='sqm' if param == 'mono' or param == 'poly' else 'pcs',  # sqm,pcs
+                          total_cost=math.floor(
+                              budget/unit_cost_dict[param]) * unit_cost_dict[param],
+                          breakEvenPoint=5,  # TODO # float years
+                          production=list(monthly_data.get(
+                              param)/1000),  # array of kWh
+                          # array of g/kWh
+                          co2saved=list(monthly_data.get(
+                              param)/1000 * CO2_SAVINGS_FACTOR),
                           # array of production * inputtariff * (1-usage)
-                          revenue=[monthly_data.get(param) / 1000 * ( 18.12 if param == 'mono' or param == 'poly' else 9.34) * (1-usage)],
+                          revenue=list(monthly_data.get(
+                              param) / 1000 * (18.12 if param == 'mono' or param == 'poly' else 9.34) * (1-usage)),
                           # array of production * tariff * usage
-                          savings=[monthly_data.get(param) * monthly_energy.get(param) / 1000 * usage],
-                          type= 'solar' if param == 'mono' or param == 'poly' else 'wind',  # solar, wind
-                          subType= f'{param}chrystalline' if param == 'mono' or param == 'poly' else param  # monocrystalline, polychristalline, small, medium, large
-                          ) for param in unit_data.keys() if param != 'timestamp']
+                          savings=list(monthly_data.get(
+                              param) * monthly_energy.get(param) / 1000 * usage),
+                          type='solar' if param == 'mono' or param == 'poly' else 'wind',  # solar, wind
+                          # monocrystalline, polychristalline, small, medium, large
+                          subType=f'{param}chrystalline' if param == 'mono' or param == 'poly' else param
+                          ) for param in ['small', 'medium', 'large', 'mono', 'poly']]
 
-    response_json.breakEvenPoint
-    
+    return response_json
 
 
 if __name__ == "__main__":
@@ -170,7 +175,7 @@ if __name__ == "__main__":
     #total_data['co2_impact'] = total_data * 77.352
     monthly_data = aggregate_monthly(total_data)
 
-    jsonify_response_data(total_data, 10*1000*1000,0.7,start,end)
+    jsonify_response_data(total_data, 10*1000*1000, 0.7, start, end)
     # amounts units
     # total cost
     # break-even-point => linear anschaffungskosten/(revenue + ersparnis (pro jahr))

@@ -36,6 +36,15 @@ paths:
             minimum: 0
             example: 120000
         - in: query
+          name: usage_quota
+          required: true
+          description: The ratio of produced energy that gets consumed by the user.
+          schema:
+            type: number
+            minimum: 0
+            maximum: 1
+            example: 0.7
+        - in: query
           name: latitude
           required: true
           description: The latitude for the project.

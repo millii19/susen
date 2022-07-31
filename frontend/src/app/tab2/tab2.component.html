@@ -1,8 +1,8 @@
 <mat-tab-group *ngIf="data && graphs">
     <mat-tab *ngFor="let d of data; let i = index">
       <ng-template mat-tab-label style="width: 10000px">
-        <div *ngIf="d.type !== 'solar'">{{d.subType[0].toUpperCase()}}{{d.subType.substring(1,d.subType.length)}} wind energy</div>
-        <div *ngIf="d.type === 'solar'">{{d.subType[0].toUpperCase()}}{{d.subType.substring(1,d.subType.length)}} solar energy</div>
+        <div *ngIf="d.type !== 'solar'">{{d.subType[0].toUpperCase()}}{{d.subType.substring(1,d.subType.length)}} wind project</div>
+        <div *ngIf="d.type === 'solar'">{{d.subType[0].toUpperCase()}}{{d.subType.substring(1,d.subType.length)}} solar project</div>
       </ng-template>
       <div class="body">
         <h1 *ngIf="d.type !== 'solar'">{{d.subType[0].toUpperCase()}}{{d.subType.substring(1,d.subType.length)}} wind project</h1>
@@ -13,7 +13,7 @@
         </mat-form-field>
         <mat-form-field class="example-full-width" appearance="fill">
           <mat-label>Break-even point</mat-label>
-          <input matInput value="{{d.breakEvenPoint}} Jahre">
+          <input matInput value="{{d.breakEvenPoint}} years">
         </mat-form-field>
       </div>
       <div class="graphsContainer">

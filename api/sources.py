@@ -2,7 +2,7 @@ import csv
 import datetime
 import math
 import requests
-
+from pandas import DataFrame
 
 AUSTRIA_MODULE_ID = 8004170
 
@@ -43,6 +43,19 @@ def load_historical_energy_prices_hourly(from_date, to_date):
     parsed = [parse_hour(row) for row in csv_data[1:]]  # skip header line
     return parsed
 
+
+def load_meteorological_data_hourly(location,from_date,to_date):
+    res = requests.get(
+        f'https://dataset.api.hub.zamg.ac.at/v1/timeseries/historical/inca-v1-1h-1km?parameters=GL,UU,VV,T2M&start={from_date.isoformat()}&end={to_date.isoformat()}&lat={location[0]}&lon={location[1]}')
+    if not 200 <= res.status_code < 300:
+        raise Exception(res.content)
+    json_data = res.json()
+    daily = list(zip(json_data['timestamps'], json_data['features'][0]['properties']['parameters']['GL']['data'], json_data['features']
+                 [0]['properties']['parameters']['UU']['data'], json_data['features'][0]['properties']['parameters']['VV']['data']))
+    data = DataFrame([dict(timestamp=datetime.datetime.fromisoformat(day[0]), gl=day[1],
+                           windspeed=math.sqrt(day[2]*day[2] + day[3]*day[3])) for day in daily])
+    
+    return data
 
 if __name__ == "__main__":
     # Example for debugging:

@@ -1,13 +1,14 @@
 <div class="body">
   <h1>Information</h1>
   <form [formGroup]="dataForm">
+    <!--
     <div class="radioGroup">
       <p>I am a ...</p>
       <mat-radio-group formControlName="publicOrPrivate">
         <mat-radio-button value="true" [checked]="true">private person</mat-radio-button>
         <mat-radio-button value="false">company</mat-radio-button>
       </mat-radio-group>
-    </div>
+    </div>-->
 
     <div class="budget input">
       <p>Budget (in €):</p>
@@ -16,6 +17,13 @@
         <input matInput placeholder="0€" formControlName="budget" type="number">
       </mat-form-field>
     </div>
+
+    <div>
+      <mat-label>Usage quota:</mat-label>
+      <mat-label class="example-value-label" style="float: right;">{{this.dataForm.controls['usage_quota'].value}}</mat-label>
+      <mat-slider style="width: 100%" min="0" max="1" step="0.01" formControlName="usage_quota"></mat-slider>
+    </div>
+
   </form>
 
   <p>Location:</p>

@@ -27,7 +27,7 @@ export class Tab1Component implements OnInit {
     budget: new FormControl('0', [Validators.required]),
     latitude: new FormControl(0),
     longitude: new FormControl(0),
-    usage_quota: new FormControl(0.7)
+    usage_quota: new FormControl(0)
   });
 
   constructor() {

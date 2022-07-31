@@ -1,16 +1,45 @@
 <mat-tab-group>
     <mat-tab>
-      <ng-template mat-tab-label>
+      <ng-template mat-tab-label style="width: 10000px">
         Solarenergie
       </ng-template>
-      <h1>Best pasta restaurants</h1>
-      <p>...</p>
+      <div class="body">
+        <h1>{{this.solarProject.subType[0].toUpperCase()}}{{this.solarProject.subType.substring(1,this.solarProject.subType.length)}}s Solarprojekt</h1>
+        <mat-form-field class="example-full-width" appearance="fill">
+          <mat-label>Menge</mat-label>
+          <input matInput label="Menge" value="{{this.solarProject.amount}} {{this.windProject.amountUnit}}">
+        </mat-form-field>
+        <mat-form-field class="example-full-width" appearance="fill">
+          <mat-label>Break-even point</mat-label>
+          <input matInput value="{{this.solarProject.breakEvenPoint}} Jahre">
+        </mat-form-field>
+      </div>
+      <div class="graphsContainer">
+        <plotly-plot [data]="solar_revenue_graph.data" [layout]="solar_revenue_graph.layout"></plotly-plot>
+        <plotly-plot [data]="solar_production_graph.data" [layout]="solar_production_graph.layout"></plotly-plot>
+        <plotly-plot [data]="solar_co2_graph.data" [layout]="solar_co2_graph.layout"></plotly-plot>
+      </div>
     </mat-tab>
     <mat-tab>
       <ng-template mat-tab-label>
         Windenergie
       </ng-template>
-      <h1>Terrible sushi restaurants</h1>
-      <p>...</p>
+      <div class="body">
+        <h1>{{this.windProject.subType[0].toUpperCase()}}{{this.windProject.subType.substring(1,this.windProject.subType.length)}} Windprojekt</h1>
+        <mat-form-field class="example-full-width" appearance="fill">
+          <mat-label>Menge</mat-label>
+          <input matInput label="Menge" value="{{this.windProject.amount}} {{this.windProject.amountUnit}}">
+        </mat-form-field>
+        <mat-form-field class="example-full-width" appearance="fill">
+          <mat-label>Break-even point</mat-label>
+          <input matInput value="{{this.windProject.breakEvenPoint}} Jahre">
+        </mat-form-field>
+      </div>
+        <div class="graphsContainer">
+        <plotly-plot [data]="wind_revenue_graph.data" [layout]="wind_revenue_graph.layout"></plotly-plot>
+        <plotly-plot [data]="wind_production_graph.data" [layout]="wind_production_graph.layout"></plotly-plot>
+        <plotly-plot [data]="wind_co2_graph.data" [layout]="wind_co2_graph.layout"></plotly-plot>
+        </div>
     </mat-tab>
   </mat-tab-group>
+

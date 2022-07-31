@@ -12,6 +12,7 @@ import { Tab2Component } from './tab2/tab2.component';
 import { Tab3Component } from './tab3/tab3.component';
 import { PlotlyModule } from 'angular-plotly.js';
 import * as PlotlyJS from 'plotly.js-dist-min';
+import { HttpClientModule, HttpClient } from '@angular/common/http';
 
 PlotlyModule.plotlyjs = PlotlyJS;
 
@@ -29,11 +30,12 @@ PlotlyModule.plotlyjs = PlotlyJS;
     NoopAnimationsModule,
     MaterialModule,
     FormsModule,
+    HttpClientModule,
     ReactiveFormsModule,
     LeafletModule,
     PlotlyModule
   ],
-  providers: [],
+  providers: [HttpClientModule],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

@@ -24,6 +24,7 @@ export class Tab1Component implements OnInit {
 
   dataForm: FormGroup = new FormGroup({
     publicOrPrivate: new FormControl(0),
+    PLZ: new FormControl('1010', [Validators.required, Validators.max(9999), Validators.min(1000)]),
     budget: new FormControl('0', [Validators.required]),
     latitude: new FormControl(0),
     longitude: new FormControl(0)

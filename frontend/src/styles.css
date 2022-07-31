@@ -11,5 +11,6 @@ body button {
 }
 
 body button:hover {
-    background-color: #447a06;
+    background-color: #1b5e20;
+    color: white;
 }

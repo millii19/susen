@@ -1,5 +1,11 @@
+.body {
+  width: 50%;
+  margin: auto;
+  padding-top: 1%;
+}
+
 mat-form-field {
-    width: 400px;
+    width: 100%;
 }
 
 .radioGroup {
@@ -9,7 +15,7 @@ mat-form-field {
 mat-radio-group {
     width: 100%;
     display: flex;
-    justify-content: space-between;
+    justify-content: space-around;
 }
 
 mat-radio {
@@ -17,5 +23,5 @@ mat-radio {
 }
 
 .input {
-    padding-top: 5%;
+    padding-top: 3%;
 }

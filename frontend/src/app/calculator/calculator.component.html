@@ -1,10 +1,15 @@
-<div class="body1 body" *ngIf="this.showFirst">
+<div class="body">
+  <div *ngIf="this.showFirst">
     <app-tab1 (sendFormEvent)="this.getForm($event)"></app-tab1>
-</div>
-<div class="sidenav" *ngIf="!this.showFirst">
-    <app-tab2></app-tab2>
+  </div>
+  <div *ngIf="!this.showFirst">
+    <app-tab2 [data]="windSolarPanel"></app-tab2>
+  </div>
 </div>
 
 <div class="bottomButton">
-    <button mat-flat-button (click)="onTabChange()">Weiter</button>
+    <button mat-flat-button (click)="onTabChange()">
+      <div *ngIf="this.showFirst">Weiter</div>
+      <div *ngIf="!this.showFirst">Zurück</div>
+    </button>
 </div>

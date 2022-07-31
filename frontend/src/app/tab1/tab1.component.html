@@ -1,22 +1,24 @@
-<h1>Generelle Informationen</h1>
-<form [formGroup]="dataForm">
+<div class="body">
+  <h1>Generelle Informationen</h1>
+  <form [formGroup]="dataForm">
     <div class="radioGroup">
-        <p>Ich bin ein/e ...</p>
-        <mat-radio-group formControlName="publicOrPrivate">
-            <mat-radio-button value="true" [checked]="true">Privatperson</mat-radio-button>
-            <mat-radio-button value="false">Öffentlicher Verein</mat-radio-button>
-        </mat-radio-group>
+      <p>Ich bin ein/e ...</p>
+      <mat-radio-group formControlName="publicOrPrivate">
+        <mat-radio-button value="true" [checked]="true">Privatperson</mat-radio-button>
+        <mat-radio-button value="false">Öffentlicher Verein</mat-radio-button>
+      </mat-radio-group>
     </div>
 
     <div class="budget input">
-        <p>Budget (in €):</p>
-        <mat-form-field appearance="fill">
-            <mat-label>Budget</mat-label>
-            <input matInput placeholder="0€" formControlName="budget" type="number">
-        </mat-form-field>
-        <mat-error *ngIf="this.dataForm.get('budget')?.invalid">Bitte, Budget anzugeben.</mat-error>
+      <p>Budget (in €):</p>
+      <mat-form-field appearance="fill">
+        <mat-label>Budget</mat-label>
+        <input matInput placeholder="0€" formControlName="budget" type="number">
+      </mat-form-field>
+      <mat-error *ngIf="this.dataForm.get('budget')?.invalid">Bitte, Budget anzugeben.</mat-error>
     </div>
-</form>
+  </form>
 
-<div id="map" style="height: 40%;width:100%"></div>
-{{dataForm.get("latitude")?.value}} {{dataForm.get("longitude")?.value}}
+  <p>Standort:</p>
+  <div id="map" style="height: 17rem;width:100%"></div>
+</div>

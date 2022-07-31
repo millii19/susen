@@ -12,19 +12,9 @@
 mat-tab {
     width: 33%;
 }
-
 .body {
-    display: flex;
-    justify-content: center;
-    padding-top: 10px;
-    height: 80%;
+  height: 80%;
 }
-
-.sidenav {
-    height: calc(80% + 10px);
-}
-
-
 .bottomButton {
     display: flex;
     justify-content: center;
